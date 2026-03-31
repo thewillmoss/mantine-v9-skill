@@ -267,6 +267,55 @@ import { Link } from 'react-router-dom';
 <Text darkHidden>Only in light mode</Text>
 ```
 
+## New Components in 9.x
+
+### FloatingWindow, OverflowList, Marquee, Scroller
+
+```tsx
+import { FloatingWindow, OverflowList, Marquee, Scroller } from '@mantine/core';
+
+// Draggable floating element
+<FloatingWindow>{/* content */}</FloatingWindow>
+
+// Collapse overflowing items
+<OverflowList items={items} renderItem={(item) => <Badge>{item}</Badge>}
+  renderOverflow={(count) => <Badge>+{count}</Badge>} />
+
+// Continuous scrolling
+<Marquee>{/* scrolling content */}</Marquee>
+
+// Horizontal scroll with navigation
+<Scroller>{/* scrollable content */}</Scroller>
+```
+
+### Key 9.x Enhancements
+
+```tsx
+// Card: horizontal layout
+<Card orientation="horizontal">...</Card>
+
+// Collapse: horizontal orientation + keepMounted
+<Collapse expanded={open} orientation="horizontal" keepMounted={false}>...</Collapse>
+
+// All inputs: loading state
+<TextInput loading loadingPosition="right" />
+
+// SimpleGrid: auto-sizing columns
+<SimpleGrid minColWidth={200} autoFlow="auto-fill">...</SimpleGrid>
+
+// Slider: vertical orientation
+<Slider orientation="vertical" />
+
+// Grid.Col: vertical alignment
+<Grid.Col span={6} align="center">...</Grid.Col>
+
+// AppShell: static mode (CSS Grid, normal document flow)
+<AppShell mode="static">...</AppShell>
+
+// Generic value types for Select, MultiSelect, etc.
+<Select<number> data={[{ value: 1, label: 'One' }]} />
+```
+
 ## 9.x Component Changes
 
 | 8.x | 9.x |

@@ -355,6 +355,60 @@ const mergedRef = useMergedRef(myRef, hookRef);
 
 **Utilities:** useClipboard, useHotkeys, useFullscreenDocument, useFullscreenElement, useIdle, useInterval, useTimeout, useDocumentTitle, useDocumentVisibility, useFavicon, useOs, useNetwork, usePrevious, useMergedRef, useId, useForceUpdate, useReducedMotion, useTextSelection, useWindowEvent, useEventListener, useEyeDropper, useHash, useHeadroom, useLogger, useMutationObserver, useMutationObserverTarget, useOrientation, usePageLeave, usePinchToZoom, useStateHistory
 
+## New Hooks in 9.x
+
+### useCollapse / useHorizontalCollapse
+
+Hook versions of the Collapse component:
+
+```tsx
+import { useCollapse, useHorizontalCollapse } from '@mantine/hooks';
+
+const { ref, toggle, expanded } = useCollapse(); // height animation
+const { ref, toggle, expanded } = useHorizontalCollapse(); // width animation
+```
+
+### useScrollDirection
+
+```tsx
+import { useScrollDirection } from '@mantine/hooks';
+
+const { scrollDirection } = useScrollDirection();
+// scrollDirection: 'up' | 'down'
+```
+
+### useVirtualizedCombobox
+
+Combobox virtualization without external deps (recommended with @tanstack/react-virtual):
+
+```tsx
+import { useVirtualizedCombobox } from '@mantine/hooks';
+```
+
+### useFloatingWindow
+
+```tsx
+import { useFloatingWindow } from '@mantine/hooks';
+
+const { ref, handleRef, position } = useFloatingWindow();
+```
+
+### useScroller
+
+```tsx
+import { useScroller } from '@mantine/hooks';
+```
+
+### useDisclosure (updated)
+
+New `set` handler in 9.x:
+
+```tsx
+const [opened, { open, close, toggle, set }] = useDisclosure(false);
+set(true);  // explicitly set state
+set(false);
+```
+
 ## 9.x Hook Changes
 
 | 8.x | 9.x |

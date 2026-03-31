@@ -55,6 +55,45 @@ This skill focuses on:
 | `StateHistory` | `UseStateHistoryValue` | Hooks types |
 | `OS` | `UseOSReturnValue` | Hooks types |
 
+## New in 9.x
+
+### New Packages
+
+- `@mantine/schedule` — Calendar scheduling with DayView, WeekView, MonthView, YearView, MobileMonthView
+
+### New Components
+
+- `FloatingWindow` — Draggable floating elements
+- `OverflowList` — Collapses overflowing items into a menu
+- `Marquee` — Continuous scrolling animation
+- `Scroller` — Horizontally scrollable content with navigation controls
+
+### New Hooks
+
+- `useCollapse` / `useHorizontalCollapse` — Hook versions of Collapse component
+- `useFloatingWindow` — Draggable floating elements
+- `useScroller` — Horizontal scroll logic
+- `useScrollDirection` — Detect scroll direction
+- `useVirtualizedCombobox` — Combobox virtualization without external deps
+
+### Key Enhancements
+
+- Collapse: `orientation="horizontal"` and `keepMounted` props
+- Card: `orientation="horizontal"` prop
+- All inputs: `loading` prop
+- Generic value types for Select, MultiSelect, SegmentedControl, Chip.Group, Radio.Group, etc.
+- SimpleGrid: `minColWidth`, `autoFlow`, `autoRows` props
+- Grid.Col: `align` prop
+- Slider / RangeSlider: `orientation="vertical"`
+- Standard Schema support via `schemaResolver`
+- New theme `fontWeights` property
+- Default radius changed from `sm` to `md`
+- New logical style props: `mis`, `mie`, `pis`, `pie`
+- Async form validation with AbortSignal
+- New validators: `isUrl`, `isOneOf`
+- `useDisclosure`: new `set` handler
+- AppShell: `mode="static"`
+
 ## Form Resolver Migration
 
 Replace dedicated resolver packages with built-in `schemaResolver`:
@@ -158,6 +197,11 @@ function App() {
 - [forms.md](references/forms.md) — @mantine/form, useForm, validation
 - [form-api.md](references/form-api.md) — Full @mantine/form API: useForm options, return value, useField, createFormContext, validators, types
 - [form-patterns.md](references/form-patterns.md) — Form code examples: nested objects, arrays, async validation, form context, transformValues, useField
+
+### New in 9.x
+
+- [schedule.md](references/schedule.md) — @mantine/schedule calendar views and scheduling
+- [new-features.md](references/new-features.md) — New components, hooks, and enhancements in 9.x
 
 ### Combobox
 

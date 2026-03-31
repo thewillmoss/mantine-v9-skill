@@ -457,7 +457,7 @@ function NameField({ form }: Props) {
 ## Built-in Validators
 
 ```tsx
-import { isNotEmpty, isEmail, hasLength, matches, isInRange } from '@mantine/form';
+import { isNotEmpty, isEmail, isUrl, hasLength, matches, isInRange, isOneOf } from '@mantine/form';
 
 const form = useForm({
   mode: 'uncontrolled',
@@ -474,9 +474,45 @@ const form = useForm({
     age: isInRange({ min: 18, max: 99 }, 'Age must be 18-99'),
     website: matches(/^https?:\/\//, 'Must start with http'),
     terms: isNotEmpty('Must accept terms'),
+    website: isUrl({ protocols: ['https'], allowLocalhost: false }, 'Must be a valid HTTPS URL'),
+    role: isOneOf(['admin', 'user', 'editor'], 'Invalid role'),
   },
 });
 ```
+
+## Async Validation (9.x)
+
+Validation rules can return Promises. Use `AbortSignal` to cancel stale validations:
+
+```tsx
+const form = useForm({
+  mode: 'uncontrolled',
+  initialValues: { username: '' },
+  validate: {
+    username: async (value, _values, _path, signal) => {
+      if (!value) return 'Required';
+      const res = await fetch(`/api/check?q=${value}`, { signal });
+      if (signal?.aborted) return null;
+      const { taken } = await res.json();
+      return taken ? 'Username taken' : null;
+    },
+  },
+  validateInputOnChange: ['username'],
+  validateDebounce: 500,
+});
+
+// Check validation state
+form.validating;           // boolean
+form.isValidating('username'); // boolean
+```
+
+## Radio Input Support (9.x)
+
+```tsx
+<Radio {...form.getInputProps('color', { type: 'radio' })} value="blue" label="Blue" />
+```
+
+`getInputProps` with `type: 'radio'` returns `checked`/`defaultChecked` instead of `value`.
 
 ## Focus First Error
 
