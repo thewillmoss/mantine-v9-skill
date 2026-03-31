@@ -54,6 +54,10 @@ This skill focuses on:
 | `UseScrollSpyReturnType` | `UseScrollSpyReturnValue` | Hooks types |
 | `StateHistory` | `UseStateHistoryValue` | Hooks types |
 | `OS` | `UseOSReturnValue` | Hooks types |
+| `createPolymorphicComponent` | `polymorphic` | Core utility |
+| `useHeadroom` returns `boolean` | Returns `{ pinned, scrollProgress }` | Hooks |
+| Default radius `sm` (4px) | Default radius `md` (8px) | Theme |
+| `fontWeights.medium` = 500 | `fontWeights.medium` = 600 | Theme |
 
 ## New in 9.x
 

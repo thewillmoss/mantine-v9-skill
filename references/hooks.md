@@ -359,13 +359,20 @@ const mergedRef = useMergedRef(myRef, hookRef);
 
 ### useCollapse / useHorizontalCollapse
 
-Hook versions of the Collapse component:
+Hook versions of the Collapse component. Returns `getCollapseProps` to spread on the element.
 
 ```tsx
 import { useCollapse, useHorizontalCollapse } from '@mantine/hooks';
+import { useDisclosure } from '@mantine/hooks';
 
-const { ref, toggle, expanded } = useCollapse(); // height animation
-const { ref, toggle, expanded } = useHorizontalCollapse(); // width animation
+const [expanded, handlers] = useDisclosure(false);
+const { getCollapseProps } = useCollapse({ expanded });
+
+<div {...getCollapseProps()}>Collapsible content</div>
+
+// Horizontal (width animation):
+const { getCollapseProps } = useHorizontalCollapse({ expanded });
+<div {...getCollapseProps({ style: { width: 200 } })}>Content</div>
 ```
 
 ### useScrollDirection

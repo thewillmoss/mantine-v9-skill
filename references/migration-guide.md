@@ -328,3 +328,51 @@ import { Notifications } from '@mantine/notifications';
 
 <Notifications pauseResetOnHover="notification" />
 ```
+
+## createPolymorphicComponent -> polymorphic
+
+`createPolymorphicComponent` was renamed to `polymorphic`:
+
+```tsx
+// 8.x
+import { createPolymorphicComponent } from '@mantine/core';
+const MyButton = createPolymorphicComponent<'button', Props>(_MyButton);
+
+// 9.x
+import { polymorphic } from '@mantine/core';
+const MyButton = polymorphic<'button', Props>(_MyButton);
+```
+
+## useHeadroom return type change
+
+`useHeadroom` now returns an object instead of a boolean:
+
+```tsx
+// 8.x
+const pinned = useHeadroom({ fixedAt: 120 });
+
+// 9.x
+const { pinned, scrollProgress } = useHeadroom({
+  fixedAt: 120,
+  scrollDistance: 200, // new option
+});
+```
+
+## Default radius change
+
+The default `theme.defaultRadius` changed from `sm` (4px) to `md` (8px). To keep 8.x behavior:
+
+```tsx
+const theme = createTheme({ defaultRadius: 'sm' });
+```
+
+## fontWeights theme change
+
+The `medium` font weight changed from 500 to 600. New `fontWeights` theme property:
+
+```tsx
+// To keep 8.x behavior:
+const theme = createTheme({
+  fontWeights: { regular: 400, medium: 500, bold: 700 },
+});
+```

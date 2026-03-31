@@ -9,13 +9,50 @@ Comprehensive reference for all new features introduced in Mantine 9.x.
 Draggable floating element with viewport constraints.
 
 ```tsx
-import { FloatingWindow } from '@mantine/core';
+import { Button, CloseButton, FloatingWindow, Group, Text } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 
-<FloatingWindow>
-  <FloatingWindow.Header>Drag me</FloatingWindow.Header>
-  <FloatingWindow.Body>Content</FloatingWindow.Body>
-</FloatingWindow>
+function Demo() {
+  const [visible, handlers] = useDisclosure();
+
+  return (
+    <>
+      <Button onClick={handlers.toggle} variant="default">
+        {visible ? 'Hide' : 'Show'} floating window
+      </Button>
+
+      {visible && (
+        <FloatingWindow
+          w={280}
+          p="md"
+          withBorder
+          radius="md"
+          excludeDragHandleSelector="button"
+          initialPosition={{ top: 300, left: 20 }}
+          constrainToViewport
+          constrainOffset={30}
+          style={{ cursor: 'move' }}
+        >
+          <Group justify="space-between" mb="md">
+            <Text>Usage demo</Text>
+            <CloseButton onClick={handlers.close} />
+          </Group>
+          <Text fz="sm">This is a floating window. You can drag it around.</Text>
+        </FloatingWindow>
+      )}
+    </>
+  );
+}
 ```
+
+| Prop | Type | Description |
+|---|---|---|
+| `initialPosition` | `{ top?, left?, right?, bottom? }` | Starting position |
+| `constrainToViewport` | `boolean` | Keep within viewport |
+| `constrainOffset` | `number` | Min distance from viewport edges |
+| `excludeDragHandleSelector` | `string` | Elements to exclude from drag |
+| `dragHandleSelector` | `string` | Element to use as drag handle |
+| `axis` | `'x' \| 'y'` | Restrict movement to one axis |
 
 ### OverflowList
 
@@ -33,27 +70,33 @@ import { OverflowList } from '@mantine/core';
 
 ### Marquee
 
-Continuous scrolling animation.
+Continuous scrolling animation for content display.
 
 ```tsx
 import { Marquee } from '@mantine/core';
 
-<Marquee speed={40} pauseOnHover>
-  <span>Scrolling content</span>
+<Marquee gap="lg">
+  <Badge>Item 1</Badge>
+  <Badge>Item 2</Badge>
+  <Badge>Item 3</Badge>
 </Marquee>
 ```
 
 ### Scroller
 
-Horizontally scrollable content with navigation controls. Supports trackpad, shift+wheel, touch, and mouse drag.
+Horizontally scrollable content with built-in navigation controls. Supports trackpad, shift+wheel, touch, and mouse drag.
 
 ```tsx
-import { Scroller } from '@mantine/core';
+import { Badge, Group, Scroller } from '@mantine/core';
 
 <Scroller>
-  {items.map((item) => (
-    <div key={item}>{item}</div>
-  ))}
+  <Group gap="xs" wrap="nowrap">
+    {Array.from({ length: 20 }).map((_, index) => (
+      <Badge key={index} variant="light" size="lg">
+        Badge {index + 1}
+      </Badge>
+    ))}
+  </Group>
 </Scroller>
 ```
 
@@ -61,21 +104,39 @@ import { Scroller } from '@mantine/core';
 
 ### useCollapse / useHorizontalCollapse
 
-Hook versions of Collapse for animating height (or width) from 0 to auto.
+Hook versions of Collapse for animating height (or width) from 0 to auto. Returns `getCollapseProps` to spread on the collapsible element.
 
 ```tsx
-import { useCollapse, useHorizontalCollapse } from '@mantine/core';
+import { Button, Stack, Typography } from '@mantine/core';
+import { useDisclosure, useCollapse } from '@mantine/hooks';
 
 function Demo() {
-  const { ref, toggle, opened } = useCollapse();
+  const [expanded, handlers] = useDisclosure(false);
+  const { getCollapseProps } = useCollapse({ expanded });
 
   return (
-    <>
-      <button onClick={toggle}>Toggle</button>
-      <div ref={ref}>Collapsible content</div>
-    </>
+    <Stack>
+      <Button onClick={handlers.toggle}>
+        {expanded ? 'Collapse' : 'Expand'}
+      </Button>
+      <div {...getCollapseProps()}>
+        <Typography p="xs">Collapsible content</Typography>
+      </div>
+    </Stack>
   );
 }
+```
+
+```tsx
+import { useDisclosure, useHorizontalCollapse } from '@mantine/hooks';
+
+// Animates width instead of height
+const [expanded, handlers] = useDisclosure(false);
+const { getCollapseProps } = useHorizontalCollapse({ expanded });
+
+<div {...getCollapseProps({ style: { width: 200 } })}>
+  <div>Horizontally collapsible content</div>
+</div>
 ```
 
 ### useFloatingWindow
@@ -83,15 +144,43 @@ function Demo() {
 Creates draggable floating elements with viewport constraints. Powers the FloatingWindow component.
 
 ```tsx
-import { useFloatingWindow } from '@mantine/core';
+import { useFloatingWindow } from '@mantine/hooks';
+
+const floatingWindow = useFloatingWindow({
+  constrainToViewport: true,
+  constrainOffset: 20,
+  excludeDragHandleSelector: 'button',
+  initialPosition: { top: 300, left: 20 },
+  axis: 'x',              // restrict to horizontal movement
+  onPositionChange: (pos) => console.log(pos.x, pos.y),
+  onDragStart: () => {},
+  onDragEnd: () => {},
+});
+
+// floatingWindow.ref — attach to draggable element
+// floatingWindow.setPosition({ top: 100, left: 50 }) — programmatic move
+// floatingWindow.isDragging — boolean
 ```
+
+| Option | Type | Description |
+|---|---|---|
+| `enabled` | `boolean` | Disable dragging |
+| `constrainToViewport` | `boolean` | Keep within viewport |
+| `constrainOffset` | `number` | Min distance from edges |
+| `dragHandleSelector` | `string` | Element used as drag handle |
+| `excludeDragHandleSelector` | `string` | Exclude from drag events |
+| `axis` | `'x' \| 'y'` | Restrict to one axis |
+| `initialPosition` | `{ top?, left?, right?, bottom? }` | Starting position |
+| `onPositionChange` | `(pos: { x, y }) => void` | Position change callback |
+| `onDragStart` | `() => void` | Drag start callback |
+| `onDragEnd` | `() => void` | Drag end callback |
 
 ### useScroller
 
 Logic for horizontally scrollable containers with navigation controls.
 
 ```tsx
-import { useScroller } from '@mantine/core';
+import { useScroller } from '@mantine/hooks';
 ```
 
 ### useScrollDirection
@@ -112,7 +201,7 @@ function Demo() {
 Combobox virtualization without external library dependencies. Recommended with `@tanstack/react-virtual`.
 
 ```tsx
-import { useVirtualizedCombobox } from '@mantine/core';
+import { useVirtualizedCombobox } from '@mantine/hooks';
 ```
 
 ## Component Enhancements
@@ -125,11 +214,11 @@ import { useVirtualizedCombobox } from '@mantine/core';
 | `keepMounted` | `boolean` | Set `false` to unmount collapsed content |
 
 ```tsx
-<Collapse in={opened} orientation="horizontal">
+<Collapse expanded={opened} orientation="horizontal">
   <div>Horizontal collapse</div>
 </Collapse>
 
-<Collapse in={opened} keepMounted={false}>
+<Collapse expanded={opened} keepMounted={false}>
   <div>Unmounted when closed</div>
 </Collapse>
 ```
