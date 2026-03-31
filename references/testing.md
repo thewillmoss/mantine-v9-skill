@@ -10,10 +10,11 @@ npm install -D vitest jsdom @testing-library/dom @testing-library/jest-dom @test
 
 ## Vitest Configuration
 
-Add to `vite.config.ts`:
+Add to `vitest.config.ts`:
 
 ```ts
-import { defineConfig } from 'vite';
+/// <reference types="vitest/config" />
+import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig({

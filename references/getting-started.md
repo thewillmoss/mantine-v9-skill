@@ -102,6 +102,8 @@ import '@mantine/tiptap/styles.css';
 import '@mantine/core/styles.css';
 
 import { MantineProvider, createTheme } from '@mantine/core';
+// Optional: install react-router-dom if using routing
+// npm install react-router-dom
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 const theme = createTheme({

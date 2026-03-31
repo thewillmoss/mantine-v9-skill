@@ -11,7 +11,7 @@ description: >
   components, configuring theming/dark mode, or working with Mantine hooks and forms, or
   (9) any task involving Mantine 8.x to 9.x migration.
 metadata:
-  version: "9.0.0-alpha.7"
+  version: "9.0.0"
   release_date: "2026-03-31"
 ---
 

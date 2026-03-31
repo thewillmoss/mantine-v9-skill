@@ -79,7 +79,7 @@ Add to `package.json`:
 ```json
 {
   "scripts": {
-    "lint": "npm run eslint && npm run stylelint",
+    "lint": "npm run eslint",
     "eslint": "eslint . --cache",
     "eslint:fix": "eslint . --cache --fix"
   }
